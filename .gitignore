@@ -2,5 +2,7 @@
 
 # Package Files #
 target
-.progect
+.project
 .classpath
+.settings
+.DS_Store
