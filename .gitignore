@@ -1,6 +1,6 @@
-*.class
+.svn
 
 # Package Files #
-*.jar
-*.war
-*.ear
+target
+.progect
+.classpath
