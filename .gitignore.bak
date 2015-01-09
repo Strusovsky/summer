@@ -1,12 +1,8 @@
 .svn
-target/*
+
 # Package Files #
 target
 .project
 .classpath
 .settings
 .DS_Store
-.settings/*
-/target
-.idea
-*.iml
