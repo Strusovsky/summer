@@ -1,0 +1,85 @@
+#How to Convert FLAC to MP3 with ffmpeg
+
+ffmpeg -i input.flac -ab 320k -ac 2 -ar 48000 output.mp3
+
+#
+
+for f in *.flac; do flac -cd "$f" | lame -b 320 - "${f%.*}".mp3; done
+
+#
+
+for i in *.flac ; do 
+    ffmpeg -i "$i" -acodec libmp3lame $(basename "${i/.flac}").mp3 
+    sleep 60 
+done
+
+#
+
+find . -maxdepth 1 -type f -name '*.flac' | while IFS= read -r f; do
+  ffmpeg -i  "$f" -acodec libmp3lame "$( sed -e's/\.flac/.mp3/g' <<< $f )"
+done
+
+#
+
+ls *flac | while read f; do ffmpeg -i "$f" -acodec libmp3lame $f.mp3 & done
+
+#
+
+for i in *.flac ; do 
+    avconv -i "$i" "./mp3/$i".mp3
+done
+
+#
+
+for a in *.flac; do
+  f="${a[@]/%flac/mp3}"
+  ffmpeg -i "$a" -qscale:a 0 "$f"
+done
+
+#With ffmpeg installed
+#!/bin/bash
+
+for a in *.flac; do
+  ffmpeg -i "$a" -qscale:a 0 "${a[@]/%flac/mp3}"
+done
+
+#Install parallel and try this
+
+#!/bin/bash
+
+parallel ffmpeg -i {} -qscale:a 0 {.}.mp3 ::: *.flac
+
+
+#Without ffmpeg
+
+#!/bin/bash
+
+for a in *.flac; do
+  # give output correct extension
+  OUTF="${a[@]/%flac/mp3}"
+
+  # get the tags
+  ARTIST=$(metaflac "$a" --show-tag=ARTIST | sed s/.*=//g)
+  TITLE=$(metaflac "$a" --show-tag=TITLE | sed s/.*=//g)
+  ALBUM=$(metaflac "$a" --show-tag=ALBUM | sed s/.*=//g)
+  GENRE=$(metaflac "$a" --show-tag=GENRE | sed s/.*=//g)
+  TRACKNUMBER=$(metaflac "$a" --show-tag=TRACKNUMBER | sed s/.*=//g)
+  DATE=$(metaflac "$a" --show-tag=DATE | sed s/.*=//g)
+
+  # stream flac into the lame encoder
+  flac -c -d "$a" | lame -V0 --add-id3v2 --pad-id3v2 --ignore-tag-errors \
+    --ta "$ARTIST" --tt "$TITLE" --tl "$ALBUM"  --tg "${GENRE:-12}" \
+    --tn "${TRACKNUMBER:-0}" --ty "$DATE" - "$OUTF"
+done
+
+
+#Recursively
+#A useful extension of the above scripts is to let them recurse into all subdirectories of the working directory. To do so, replace the first line (for .... do) with:
+
+find -type f -name "*.flac" -print0 | while read -d $'\0' a; do
+
+#
+
+ffmpeg -i input.flac -ab 320k -map_metadata 0 -id3v2_version 3 output.mp3
+
+#
