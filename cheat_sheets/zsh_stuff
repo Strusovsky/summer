@@ -1,3 +1,71 @@
+# lib .so dependancies
+$ sudo ldconfig -p | grep -E 'libcrypto|libssl'
+	libssl3.so (libc6,x86-64) => /lib64/libssl3.so
+	libssl.so.10 (libc6,x86-64) => /lib64/libssl.so.10
+	libssl.so.10 (libc6) => /lib/libssl.so.10
+	libssl.so (libc6,x86-64) => /lib64/libssl.so
+	libcrypto.so.10 (libc6,x86-64) => /lib64/libcrypto.so.10
+	libcrypto.so.10 (libc6) => /lib/libcrypto.so.10
+	libcrypto.so (libc6,x86-64) => /lib64/libcrypto.so
+$ ldconfig -p | egrep 'libcrypt|libssl' | grep -v x86-64
+	libssl.so.10 (libc6) => /lib/libssl.so.10
+	libcrypto.so.10 (libc6) => /lib/libcrypto.so.10
+	libcrypt.so.1 (libc6, OS ABI: Linux 2.6.32) => /lib/libcrypt.so.1
+$ ldd /usr/local/eagle-7.4.0/bin/eagle
+	linux-vdso.so.1 (0x00007ffc273cd000)
+	libXrender.so.1 => /lib64/libXrender.so.1 (0x00007fb8b3e41000)
+	libXrandr.so.2 => /lib64/libXrandr.so.2 (0x00007fb8b3c37000)
+	libXcursor.so.1 => /lib64/libXcursor.so.1 (0x00007fb8b3a2b000)
+	libfreetype.so.6 => /lib64/libfreetype.so.6 (0x00007fb8b3780000)
+	libfontconfig.so.1 => /lib64/libfontconfig.so.1 (0x00007fb8b353c000)
+	libXext.so.6 => /lib64/libXext.so.6 (0x00007fb8b3329000)
+	libX11.so.6 => /lib64/libX11.so.6 (0x00007fb8b2fe8000)
+	libdl.so.2 => /lib64/libdl.so.2 (0x00007fb8b2de4000)
+	libXi.so.6 => /lib64/libXi.so.6 (0x00007fb8b2bd3000)
+	libpthread.so.0 => /lib64/libpthread.so.0 (0x00007fb8b29b7000)
+	librt.so.1 => /lib64/librt.so.1 (0x00007fb8b27af000)
+	libssl.so.1.0.0 => not found
+	libcrypto.so.1.0.0 => not found
+	libcups.so.2 => /lib64/libcups.so.2 (0x00007fb8b252b000)
+	libz.so.1 => /lib64/libz.so.1 (0x00007fb8b2314000)
+	libX11-xcb.so.1 => /lib64/libX11-xcb.so.1 (0x00007fb8b2112000)
+	libxcb.so.1 => /lib64/libxcb.so.1 (0x00007fb8b1ef0000)
+	libm.so.6 => /lib64/libm.so.6 (0x00007fb8b1be7000)
+	libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007fb8b19d0000)
+	libc.so.6 => /lib64/libc.so.6 (0x00007fb8b1610000)
+	/lib64/ld-linux-x86-64.so.2 (0x000055915d4d8000)
+	libXfixes.so.3 => /lib64/libXfixes.so.3 (0x00007fb8b1409000)
+	libbz2.so.1 => /lib64/libbz2.so.1 (0x00007fb8b11f9000)
+	libpng16.so.16 => /lib64/libpng16.so.16 (0x00007fb8b0fc6000)
+	libexpat.so.1 => /lib64/libexpat.so.1 (0x00007fb8b0d9b000)
+	libgssapi_krb5.so.2 => /lib64/libgssapi_krb5.so.2 (0x00007fb8b0b4e000)
+	libkrb5.so.3 => /lib64/libkrb5.so.3 (0x00007fb8b0868000)
+	libk5crypto.so.3 => /lib64/libk5crypto.so.3 (0x00007fb8b0635000)
+	libcom_err.so.2 => /lib64/libcom_err.so.2 (0x00007fb8b0431000)
+	libgnutls.so.28 => /lib64/libgnutls.so.28 (0x00007fb8b0111000)
+	libavahi-common.so.3 => /lib64/libavahi-common.so.3 (0x00007fb8aff04000)
+	libavahi-client.so.3 => /lib64/libavahi-client.so.3 (0x00007fb8afcf3000)
+	libcrypt.so.1 => /lib64/libcrypt.so.1 (0x00007fb8afabc000)
+	libXau.so.6 => /lib64/libXau.so.6 (0x00007fb8af8b8000)
+	libkrb5support.so.0 => /lib64/libkrb5support.so.0 (0x00007fb8af6a8000)
+	libkeyutils.so.1 => /lib64/libkeyutils.so.1 (0x00007fb8af4a4000)
+	libresolv.so.2 => /lib64/libresolv.so.2 (0x00007fb8af289000)
+	libp11-kit.so.0 => /lib64/libp11-kit.so.0 (0x00007fb8af023000)
+	libtspi.so.1 => /lib64/libtspi.so.1 (0x00007fb8aedb3000)
+	libtasn1.so.6 => /lib64/libtasn1.so.6 (0x00007fb8aeba0000)
+	libnettle.so.4 => /lib64/libnettle.so.4 (0x00007fb8ae96d000)
+	libhogweed.so.2 => /lib64/libhogweed.so.2 (0x00007fb8ae746000)
+	libgmp.so.10 => /lib64/libgmp.so.10 (0x00007fb8ae4ce000)
+	libdbus-1.so.3 => /lib64/libdbus-1.so.3 (0x00007fb8ae284000)
+	libfreebl3.so => /lib64/libfreebl3.so (0x00007fb8ae007000)
+	libselinux.so.1 => /lib64/libselinux.so.1 (0x00007fb8adde3000)
+	libffi.so.6 => /lib64/libffi.so.6 (0x00007fb8adbda000)
+	libcrypto.so.10 => /lib64/libcrypto.so.10 (0x00007fb8ad7f2000)
+	libssl.so.10 => /lib64/libssl.so.10 (0x00007fb8ad583000)
+	libpcre.so.1 => /lib64/libpcre.so.1 (0x00007fb8ad312000)
+$ ll /usr/lib64/{libss*,libcryp*}
+
+
 #How to Convert FLAC to MP3 with ffmpeg
 
 ffmpeg -i input.flac -ab 320k -ac 2 -ar 48000 output.mp3
