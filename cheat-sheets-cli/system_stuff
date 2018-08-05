@@ -1,0 +1,27 @@
+
+# Is it safe to raise that value and what would be the consequences of a too high value?
+
+Yes, it's safe to raise that value and below are the possible costs [source]:
+
+Each used inotify watch takes up 540 bytes (32-bit system), or 1 kB (double - on 64-bit) [sources: 1, 2]
+This comes out of kernel memory, which is unswappable.
+Assuming you set the max at 524288 and all were used (improbable), you'd be using approximately 256MB/512MB of 32-bit/64-bit kernel memory.
+Note that your application will also use additional memory to keep track of the inotify handles, file/directory paths, etc. -- how much depends on its design.
+
+# inotyfy watches
+
+cat /proc/sys/fs/inotify/max_user_watches
+
+sysctl fs.inotify.max_user_watches=
+
+To see what's using up inotify watches:
+ in /proc/*/fd/*; do readlink -f $foo; done |grep inotify |cut -d/ -f3 |xargs -I '{}' -- ps --no-headers -o '%p %U %c' -p '{}' |uniq -c |sort -nr
+
+# Recursive or all in dir iterate and run command
+for dir in ~/projects/git/*; do (cd "$dir" && git pull); done
+#or
+find . -type d -name .git -exec sh -c "cd \"{}\"/../ && pwd && git pull" \;
+# or parallel
+cd ~/projects/git/; ls | parallel 'cd {} && git pull'
+#or
+find . -maxdepth 1 -type d -name '.git' -exec sh -c 'cd "{}" && pwd && git pull' \;
